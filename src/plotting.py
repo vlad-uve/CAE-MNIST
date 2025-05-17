@@ -23,6 +23,8 @@ def plot_baseline_history(baseline_loss, to_plot_train=False):
     plt.ylabel('Loss')
     plt.title('Baseline Model Loss')
     plt.legend()
+    
+
 def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
     '''
     Plot loss curves for multiple models.
@@ -54,6 +56,8 @@ def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
+    
+
 def plot_digits_row(images, labels=None, title=None, cmap='magma', figsize=(15, 3)):
     '''
     Display a row of digit images side by side.
@@ -88,33 +92,9 @@ def plot_digits_row(images, labels=None, title=None, cmap='magma', figsize=(15, 
 
     # separator
     print('\n ')
-def show_model_performance(model_list, original_images, labels, title_list):
-    '''
-    Display reconstruction results for multiple models.
+    
 
-    Args:
-        model_list (list): list of trained models to evaluate
-        original_images (torch.Tensor): batch of original input images
-        labels (list or array): labels corresponding to the images
-        title_list (list of str): list of model names (same length as model_list)
-    '''
-
-    for model, title in zip(model_list, title_list):
-        model.eval()
-        with torch.no_grad():
-            # get reconstructed images from model
-            reconstructed_images, _ = model(original_images.to(device))
-
-            # plot reconstructed images
-            plot_digits_row(
-                reconstructed_images.cpu().squeeze(),
-                labels,
-                title=title + ' reconstructed digits'
-            )
-
-            # separator
-            print('\n ')
-def get_experiment_reconstructions(model_list, original_images):
+def get_experiment_reconstructions(model_list, original_images, device):
     '''
     Run models on input images and return reconstructed outputs.
 
@@ -132,6 +112,8 @@ def get_experiment_reconstructions(model_list, original_images):
             reconstructed_images, _ = model(original_images.to(device))
             reconstructions.append(reconstructed_images.cpu())
     return reconstructions
+
+
 def plot_experiment_reconstructions(reconstructions, labels, title_list):
     '''
     Plot reconstruction results for multiple models.

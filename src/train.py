@@ -2,7 +2,7 @@
 import torch
 import torch.nn.functional as F
 
-def train_model(model, train_dataloader, optimizer, epoch):
+def train_model(model, train_dataloader, optimizer, epoch, device):
     """
     Runs one training epoch for the given model.
 
@@ -42,7 +42,7 @@ def train_model(model, train_dataloader, optimizer, epoch):
     return loss.item()
 
 
-def validate_model(model, validation_dataloader):
+def validate_model(model, validation_dataloader, device):
     """
     Evaluates the model on the validation set using binary cross-entropy loss.
 
@@ -77,7 +77,7 @@ def validate_model(model, validation_dataloader):
     return avg_loss.item()
 
 
-def run_model_training(model, train_dataloader, validation_dataloader, optimizer, scheduler, num_epoch):
+def run_model_training(model, train_dataloader, validation_dataloader, optimizer, scheduler, num_epoch, device):
     """
     Trains the model across multiple epochs and evaluates on validation set.
 
@@ -102,7 +102,7 @@ def run_model_training(model, train_dataloader, validation_dataloader, optimizer
     # run training loop
     for epoch in range(1, num_epoch + 1):
         # train model on training set
-        train_loss = train_model(model, train_dataloader, optimizer, epoch)
+        train_loss = train_model(model, train_dataloader, optimizer, epoch, device)
 
         # evaluate model on validation set
         validation_loss = validate_model(model, validation_dataloader)
