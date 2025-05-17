@@ -4,6 +4,7 @@
 outputs/**
 
 # Allow experiment folders with valid files
+!outputs/**/
 !outputs/**/*.pth
 !outputs/**/*.pt
 !outputs/**/*.txt
