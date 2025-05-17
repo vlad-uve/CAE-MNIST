@@ -1,0 +1,21 @@
+
+%%writefile /content/CAE-MNIST/.gitignore
+# Ignore everything in outputs/ by default
+outputs/**
+
+# Allow experiment folders with valid files
+!outputs/**/*.pth
+!outputs/**/*.pt
+!outputs/**/*.txt
+!outputs/**/*.json
+!outputs/**/*.csv
+!outputs/**/*.png
+!outputs/**/*.jpg
+
+
+# Ignore all __pycache__ and checkpoint junk
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
