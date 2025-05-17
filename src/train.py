@@ -105,7 +105,7 @@ def run_model_training(model, train_dataloader, validation_dataloader, optimizer
         train_loss = train_model(model, train_dataloader, optimizer, epoch, device)
 
         # evaluate model on validation set
-        validation_loss = validate_model(model, validation_dataloader)
+        validation_loss = validate_model(model, validation_dataloader, device)
 
         # check if scheduler reduces learning rate based on validation loss plateau
         previous_lr = optimizer.param_groups[0]['lr']
