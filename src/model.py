@@ -1,6 +1,7 @@
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 class Encoder(nn.Module):
     def __init__(self, n_channels, stride, padding, latent_dim, use_batch_norm, activation_func):
