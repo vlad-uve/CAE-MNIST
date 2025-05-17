@@ -14,7 +14,7 @@ def get_image_samples(validation_dataloader):
 
   return sample_images, sample_labels
 
-  
+
 
 def get_experiment_reconstructions(model_list, original_images, device):
     '''

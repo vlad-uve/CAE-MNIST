@@ -23,7 +23,7 @@ def plot_baseline_history(baseline_loss, to_plot_train=False):
     plt.ylabel('Loss')
     plt.title('Baseline Model Loss')
     plt.legend()
-    
+
 
 def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
     '''
@@ -56,7 +56,7 @@ def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.legend()
-    
+
 
 def plot_digits_row(images, labels=None, title=None, cmap='magma', figsize=(15, 3)):
     '''
