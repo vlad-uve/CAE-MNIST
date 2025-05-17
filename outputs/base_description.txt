@@ -1,0 +1,8 @@
+Baseline model configuration:
+- Architecture: n_channels = [32, 32, 64], latent_dim = 32
+- Batch normalization: False
+- Activation function: ReLU
+- Optimizer: Adam (lr = 1e-3)
+- Scheduler: ReduceLROnPlateau (patience = 3, factor = 0.5, threshold = 1e-3)
+- Training: 20 epochs
+- Datasets: base_train_dataloader / base_validation_dataloader
