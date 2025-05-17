@@ -92,26 +92,6 @@ def plot_digits_row(images, labels=None, title=None, cmap='magma', figsize=(15, 
 
     # separator
     print('\n ')
-    
-
-def get_experiment_reconstructions(model_list, original_images, device):
-    '''
-    Run models on input images and return reconstructed outputs.
-
-    Args:
-        model_list (list): list of trained models to evaluate
-        original_images (torch.Tensor): batch of original input images
-
-    Returns:
-        list of torch.Tensor: reconstructed images for each model
-    '''
-    reconstructions = []
-    for model in model_list:
-        model.eval()
-        with torch.no_grad():
-            reconstructed_images, _ = model(original_images.to(device))
-            reconstructions.append(reconstructed_images.cpu())
-    return reconstructions
 
 
 def plot_experiment_reconstructions(reconstructions, labels, title_list):
