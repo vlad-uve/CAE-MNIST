@@ -1,7 +1,4 @@
-Experiment 2: effect of latent space dimensionality
-Three alternative settings:
-experiment_2_model_1: latent_dim = 2
-experiment_2_model_2: latent_dim = 8
-experiment_2_model_3: latent_dim = 64
-Other parameters are the same as for the base line model
-Trained for 20 epochs.
+Compare performance with different latent dimensions while keeping architecture fixed
+Tested latent_dim values: [2, 8, 64]
+Architecture: base_n_channels = [32, 32, 64]
+All models trained for 20 epochs, Adam optimizer
