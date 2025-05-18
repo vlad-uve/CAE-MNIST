@@ -1,0 +1,6 @@
+Experiment 1: effect of number of convolution filters
+Two alternative architectures:
+experiment_1_model_1: n_channels = [16, 32, 32]
+experiment_1_model_1: n_channels = [32, 64, 128]
+Other parameters are the same as for the base line model
+Trained for 20 epochs.
