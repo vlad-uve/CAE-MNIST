@@ -1,0 +1,4 @@
+Experiment 3: effect of batch normalization
+One model tested:
+experiment_3_model_1: batch normalization = True
+Other parameters are the same as for the base line model
