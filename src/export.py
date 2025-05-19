@@ -60,7 +60,7 @@ def export_experiment_files(experiment_name, model_count,
     files_to_copy = []
 
     # Collect filenames to copy
-    for idx in range(0, model_count):    
+    for idx in range(0, model_count):
       files_to_copy.append(f'{experiment_name}_model_{idx+1}.pth')
       files_to_copy.append(f'{experiment_name}_loss_{idx+1}.pth')
       files_to_copy.append(f'{experiment_name}_reconstruction_{idx+1}.pth')
@@ -80,3 +80,5 @@ def export_experiment_files(experiment_name, model_count,
     os.system(f'git add outputs/{experiment_name}_files/*')
     os.system(f'git commit -m "Add {experiment_name}: models, losses, reconstructions, and description" || echo "Nothing to commit"')
     os.system('git push origin main')
+
+    print(f"✅ Exported {experiment_name} files to: outputs/{experiment_name}_files/")
