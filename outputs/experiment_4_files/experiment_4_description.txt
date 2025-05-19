@@ -1,0 +1,6 @@
+Experiment 4: effect of different optimizers
+Three optimizer types tested:
+experiment_4_model_1: optimizer = Adadelta, lr = 1e-3
+experiment_4_model_2: optimizer = SGD, lr = 1e-3
+experiment_4_model_3: optimizer = Adam, lr = 1e-4
+Other parameters are the same as for the base line model
