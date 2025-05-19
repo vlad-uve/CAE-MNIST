@@ -1,0 +1,6 @@
+Experiment 6: effect of training batch size
+Three configurations tested:
+experiment_6_model_1: batch_size = 16
+experiment_6_model_2: batch_size = 64
+experiment_6_model_3: batch_size = 128
+Other parameters are the same as for the base line model
