@@ -1,0 +1,4 @@
+Experiment 5: effect of activation function
+One model tested:
+experiment_5_model_1: activation function = Leaky ReLU
+Other parameters are the same as for the base line model
