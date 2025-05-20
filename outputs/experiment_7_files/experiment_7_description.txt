@@ -1,0 +1,6 @@
+Experiment 7: effect of convolutional depth
+Two models tested:
+experiment_7_model_1: DeepAutoEncoder with 4 conv layers (n_channels=[32, 32, 64, 128])
+experiment_7_model_2: ShallowAutoEncoder with 2 conv layers n_channels=[32, 64])
+Other parameters are the same as for the base line model
+Trained for base_num_epoch epochs.
