@@ -41,20 +41,17 @@ def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
         - 'validation': list of validation losses
     '''
 
-    color=plt.get_cmap('tab10').colors
+    color=plt.get_cmap('tab20').colors
 
     # loop over each loss history in the list
     for i, (loss_history, label) in enumerate(zip(loss_list, label_list)):
-      
-      # skips color[0]
-      color_index = ((i + 1) % (len(color) - 1)) + 1
-      
+
       # optionally plot training losses
       if to_plot_train:
-          plt.plot(loss_history['epoch'], loss_history['train'], label=label + ' (training loss)', color=color_index, linestyle='--')
+          plt.plot(loss_history['epoch'], loss_history['train'], label=label + ' (training loss)', color=color[i+1], linestyle='--')
 
       # plot validation losses
-      plt.plot(loss_history['epoch'], loss_history['validation'], label=label + ' (validation loss)', color=color_index, linewidth=2)
+      plt.plot(loss_history['epoch'], loss_history['validation'], label=label + ' (validation loss)', color=color[i+1], linewidth=2)
 
     plt.title(title)
     plt.xlabel('Epoch')
