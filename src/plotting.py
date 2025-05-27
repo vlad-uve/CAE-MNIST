@@ -51,7 +51,7 @@ def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
       
       # optionally plot training losses
       if to_plot_train:
-          plt.plot(loss_history['epoch'], loss_history['train'], label=label + ' (training loss)', color=color_index linestyle='--')
+          plt.plot(loss_history['epoch'], loss_history['train'], label=label + ' (training loss)', color=color_index, linestyle='--')
 
       # plot validation losses
       plt.plot(loss_history['epoch'], loss_history['validation'], label=label + ' (validation loss)', color=color_index, linewidth=2)
