@@ -93,6 +93,8 @@ def plot_digits_row(images, labels=None, title=None, cmap='magma', figsize=(15, 
     # separator
     print('\n ')
 
+    return fig
+
 
 def plot_experiment_reconstructions(reconstructions, labels, title_list):
     '''
@@ -103,9 +105,16 @@ def plot_experiment_reconstructions(reconstructions, labels, title_list):
         labels (list or array): labels for each image
         title_list (list of str): titles to display for each model
     '''
+
+    figures = []
+
     for recon, title in zip(reconstructions, title_list):
-        plot_digits_row(
+        fig = plot_digits_row(
             recon.squeeze(),
             labels,
             title=title + ' reconstructed digits'
         )
+
+        figures.append(fig)
+
+    return figures
