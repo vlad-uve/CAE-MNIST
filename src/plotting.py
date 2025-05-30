@@ -89,6 +89,7 @@ def plot_digits_row(images, labels=None, title=None, cmap='magma', figsize=(15, 
         plt.suptitle(title, y=1, fontsize=30)
 
     plt.tight_layout()
+    plt.show()
 
     # separator
     print('\n ')
