@@ -1,31 +1,9 @@
 
 import matplotlib.pyplot as plt
 import torch
+from IPython.display import Image, display
 
-def plot_baseline_history(baseline_loss, to_plot_train=False):
-    '''
-    Plot loss history for the baseline model.
-
-    Args:
-        baseline_loss (dict): dictionary with 'epoch', 'train', and 'validation' lists
-        to_plot_train (bool): if True, also plot training loss
-    '''
-
-    color=plt.get_cmap('tab10').colors
-
-    # optionally plot training losses
-    if to_plot_train:
-        plt.plot(baseline_loss['epoch'], baseline_loss['train'], label='Base model (training loss)', color=color[0], linestyle='--')
-
-    # plot validation losses
-    plt.plot(baseline_loss['epoch'], baseline_loss['validation'], label='Base model (validation loss)', color=color[0], linewidth=2)
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Baseline Model Loss')
-    plt.legend()
-
-
-def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
+def plot_experiment_history(loss_list, label_list, title, to_plot_train=False, color=plt.get_cmap('tab10').colors):
     '''
     Plot loss curves for multiple models.
 
@@ -41,17 +19,15 @@ def plot_experiment_history(loss_list, label_list, title, to_plot_train=False):
         - 'validation': list of validation losses
     '''
 
-    color=plt.get_cmap('tab20').colors
-
     # loop over each loss history in the list
     for i, (loss_history, label) in enumerate(zip(loss_list, label_list)):
 
       # optionally plot training losses
       if to_plot_train:
-          plt.plot(loss_history['epoch'], loss_history['train'], label=label + ' (training loss)', color=color[i+1], linestyle='--')
+          plt.plot(loss_history['epoch'], loss_history['train'], label=label + ' (train loss)', color=color[i], linestyle='--')
 
       # plot validation losses
-      plt.plot(loss_history['epoch'], loss_history['validation'], label=label + ' (validation loss)', color=color[i+1], linewidth=2)
+      plt.plot(loss_history['epoch'], loss_history['validation'], label=label + ' (val loss)', color=color[i], linewidth=2)
 
     plt.title(title)
     plt.xlabel('Epoch')
@@ -113,9 +89,26 @@ def plot_experiment_reconstructions(reconstructions, labels, title_list):
         fig = plot_digits_row(
             recon.squeeze(),
             labels,
-            title=title + ' reconstructed digits'
+            title=title + ' reconstruction'
         )
 
         figures.append(fig)
 
     return figures
+
+
+def disply_reconstruction_images(experiment_number, model_count):
+    """
+    Display base model reconstruction and experiment reconstruction images.
+
+    Args:
+        experiment_number (int): experiment number (e.g., 2 for 'experiment_2').
+        model_count (int): number of experiment models to display.
+    """
+    # display baseline reconstruction
+    display(Image(filename='/content/CAE-MNIST/outputs/base_model_files/base_image_reconstruction.png'))
+
+    # display experiment reconstructions
+    for idx in range(1, model_count + 1):
+        path = f'/content/CAE-MNIST/outputs/experiment_{experiment_number}_files/experiment_{experiment_number}_image_reconstruction_{idx}.png'
+        display(Image(filename=path))
