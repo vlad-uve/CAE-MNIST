@@ -1,4 +1,6 @@
 Experiment 5: effect of activation function
-One model tested:
-experiment_5_model_1: activation function = Leaky ReLU
+Three alternative settings:
+experiment_5_model_1: activation function = Leaky ReLU, leaky_relu_slope = 1e-2
+experiment_5_model_2: activation function = Leaky ReLU, leaky_relu_slope = 1e-1
+experiment_5_model_3: activation function = Leaky ReLU, leaky_relu_slope = 2e-1
 Other parameters are the same as for the base line model
