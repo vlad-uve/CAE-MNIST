@@ -78,14 +78,27 @@ As a final step, this project proposes a single **bottom-line CAE model** design
 This model is not optimal in every metric but offers the best compromise for lightweight deployment with good reconstruction fidelity.
 
 A dedicated notebook and performance metrics for this model may be added if resource benchmarking is completed.
+| Component | Choice | Rationale |
+|-----------|--------|-----------|
+| **Filters** | `[16, 32, 32]` | 2× lighter than baseline, loss ≈ +4 % |
+| **Latent dim** | `16` | 50 % smaller rep., quality sweet-spot |
+| **Depth** | 2 blocks | Extra block gave negligible gain |
+| **Activation** | Leaky ReLU (α = 0.1) | Same quality, slightly steadier curves |
+| **BatchNorm** | Enabled | Adds <0.5 % params, minor stability win |
 
+👉 `src/models/cae_tradeoff.py` contains the exact class; results are logged in `notebooks/tradeoff_model.ipynb`.
 ---
 
 ## 🔧 Project Structure
 
-- `notebooks/` — contains individual experiment notebooks
-- `outputs/` — includes saved loss curves, reconstructions, and models
-- `src/` — reusable model classes and helper functions
+├─ notebooks/ # each experiment as a standalone .ipynb
+├─ outputs/
+│ ├─ loss_curves/ # PNG loss curves per run
+│ └─ reconstructions/ # sample originals & reconstructions
+├─ src/
+│ ├─ models/ # CAE variants
+│ └─ utils.py # loaders, training loop
+└─ README.md # ← you are here
 
 ---
 
