@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class Encoder(nn.Module):
-    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func, leaky_relu_slope):
+    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm=False, activation_func='relu', leaky_relu_slope=0.2):
         super(Encoder, self).__init__()
         # store channel configuration and latent dimension
         self.n_channels = n_channels
@@ -71,7 +71,7 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func, leaky_relu_slope):
+    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm=False, activation_func='relu', leaky_relu_slope=0.2):
         super(Decoder, self).__init__()
         # store channel configuration and latent dimension
         self.n_channels = n_channels
