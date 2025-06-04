@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class Encoder(nn.Module):
-    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func):
+    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func, leaky_relu_slope):
         super(Encoder, self).__init__()
         # store channel configuration and latent dimension
         self.n_channels = n_channels
@@ -20,6 +20,9 @@ class Encoder(nn.Module):
 
         # store activation function choice
         self.activation_func = activation_func
+
+        # leaky relu slope
+        self.leaky_relu_slope = leaky_relu_slope
 
         # Build layers by calling method (can be overridden in child class)
         self._build_layers()
@@ -49,7 +52,7 @@ class Encoder(nn.Module):
         if self.activation_func == 'relu':
             return F.relu(x)
         elif self.activation_func == 'leaky_relu':
-            return F.leaky_relu(x)
+            return F.leaky_relu(x, negative_slope=self.leaky_relu_slope)
         else:
             raise ValueError(f"Unsupported activation function: {self.activation_func}")
 
@@ -68,7 +71,7 @@ class Encoder(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func):
+    def __init__(self, n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func, leaky_relu_slope):
         super(Decoder, self).__init__()
         # store channel configuration and latent dimension
         self.n_channels = n_channels
@@ -84,6 +87,9 @@ class Decoder(nn.Module):
 
         # store activation function choice
         self.activation_func = activation_func
+
+        # leaky relu slope
+        self.leaky_relu_slope = leaky_relu_slope
 
         # Build layers by calling method (can be overridden in child class)
         self._build_layers()
@@ -112,7 +118,7 @@ class Decoder(nn.Module):
         if self.activation_func == 'relu':
             return F.relu(x)
         elif self.activation_func == 'leaky_relu':
-            return F.leaky_relu(x)
+            return F.leaky_relu(x, negative_slope=self.leaky_relu_slope)
         else:
             raise ValueError(f"Unsupported activation function: {self.activation_func}")
 
@@ -132,7 +138,7 @@ class Decoder(nn.Module):
 
 
 class AutoEncoder(nn.Module):
-    def __init__(self, n_channels, latent_dim, use_batch_norm=False, activation_func='relu'):
+    def __init__(self, n_channels, latent_dim, use_batch_norm=False, activation_func='relu', leaky_relu_slope=0.2):
         super(AutoEncoder, self).__init__()
 
         # fixed parameters for all conv layers
