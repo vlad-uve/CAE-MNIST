@@ -8,11 +8,17 @@ The insights gained from these isolated experiments are ultimately used to propo
 
 ---
 
-## 📉 Objective
+## 📉 ~Objective~
 
-To evaluate the impact of individual architectural components on a CAE's ability to compress and reconstruct grayscale handwritten digits. Each experiment isolates a single hyperparameter to assess its effect independently.
+~To evaluate the impact of individual architectural components on a CAE's ability to compress and reconstruct grayscale handwritten digits. Each experiment isolates a single hyperparameter to assess its effect independently.~
 
 ---
+
+## Baseline model
+
+Loss Curve
+
+Reconstruction
 
 ## 🔍 Experiment Overview
 
@@ -24,13 +30,12 @@ To evaluate the impact of individual architectural components on a CAE's ability
 | 4            | Activation Function     | ReLU vs Leaky ReLU                        | Modest gain in sharpness and stability    | [activation](notebooks/experiment_4_activation.ipynb) |
 | 5            | Convolutional Depth     | 2 vs 3 encoder/decoder blocks             | Marginal improvement with added layers    | [depth](notebooks/experiment_5_depth.ipynb) |
 
-> ❌ **Dropped**: Experiments on optimizers and batch size were excluded due to minimal impact or relevance to architecture.
 
 ---
 
 ## ✅ Key Takeaways
 
-- **Latent dimension** and **filter width** had the most significant effect on model performance
+- **Latent dimension size** and **filter width** had the most significant effect on model performance
 - **Very small latent spaces** (e.g., 2) resulted in poor reconstructions; overly large ones (e.g., 64) added cost without benefit
 - **BatchNorm** and **Leaky ReLU** offered small, consistent improvements in stability and output quality
 - **Additional convolutional layers** showed marginal benefit on MNIST
