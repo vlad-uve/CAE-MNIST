@@ -147,8 +147,8 @@ class AutoEncoder(nn.Module):
         padding = 1
 
         # define encoder and decoder blocks
-        self.encoder = Encoder(n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func)
-        self.decoder = Decoder(n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func)
+        self.encoder = Encoder(n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func, leaky_relu_slope)
+        self.decoder = Decoder(n_channels, latent_dim, kernel, stride, padding, use_batch_norm, activation_func, leaky_relu_slope)
 
     def forward(self, input_x):
         # encode and decode the input data
