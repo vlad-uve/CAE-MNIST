@@ -9,6 +9,7 @@ def save_experiment_files(
     models,
     losses,
     reconstructions,
+    param_counts_dict,
     description_text,
     local_path_root='/content'
 ):
@@ -31,6 +32,8 @@ def save_experiment_files(
         torch.save(model.state_dict(), os.path.join(export_folder, f'{experiment_name}_model_{idx+1}.pth'))
         torch.save(loss, os.path.join(export_folder, f'{experiment_name}_loss_{idx+1}.pth'))
         torch.save(recon, os.path.join(export_folder, f'{experiment_name}_reconstruction_{idx+1}.pth'))
+        
+    torch.save(param_counts_dict, os.path.join(export_folder, f'{experiment_name}_param_counts.pth'))
 
     with open(os.path.join(export_folder, f'{experiment_name}_description.txt'), 'w') as f:
         f.write(description_text.strip())
@@ -64,6 +67,9 @@ def export_experiment_files(experiment_name, model_count,
       files_to_copy.append(f'{experiment_name}_model_{idx+1}.pth')
       files_to_copy.append(f'{experiment_name}_loss_{idx+1}.pth')
       files_to_copy.append(f'{experiment_name}_reconstruction_{idx+1}.pth')
+
+    # Model parameters
+    files_to_copy.append(f'{experiment_name}_param_counts.pth')
 
     # Add description
     files_to_copy.append(f'{experiment_name}_description.txt')
