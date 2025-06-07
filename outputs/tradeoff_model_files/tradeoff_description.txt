@@ -1,0 +1,13 @@
+Trade-off Model: lightweight CAE configuration based on experimental findings
+
+Final architecture:
+- Number of encoding/decoding layers: 2
+- Convolutional filters: [32, 32]
+- Latent dimension: 16
+- Activation function: ReLU
+- Batch Normalization: None
+- Optimizer: Adam (lr = 1e-3)
+- Scheduler: ReduceLROnPlateau (patience = 3, factor = 0.5, threshold = 1e-3)
+- Training epochs: 20
+- Train batch size: 32
+- Validation batch size: 500
