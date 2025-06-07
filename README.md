@@ -14,21 +14,42 @@ The insights gained from these isolated experiments are ultimately used to propo
 
 ---
 
-## Baseline model
+## 🧱 Baseline CAE Model
+This model is a minimal Convolutional Autoencoder (CAE), trained on the MNIST digits dataset, and serving as the foundational benchmark for all experiments in this project.
+This model strikes a solid balance between simplicity and accuracy, making it an ideal reference point for evaluating architectural changes in all subsequent experiments.
 
-Loss Curve
+###⚙️ Model Overview
+-	Encoder/decoder channels: [32, 32, 64]
+-	Latent dimension size: 32
+-	Batch normalization: not used
+-	Convolutional depth: 3 layers
+-	Activation: ReLU
 
-Reconstruction
+### 🏋️‍♂️ Training
+-	The model was trained for 20 epochs using the Adam optimizer (`lr = 1e-3`) with a `ReduceLROnPlateau` scheduler.  
+-	Both training and validation losses steadily decreased and stabilized within 10 epochs, indicating smooth convergence without overfitting.
+-	The same training setup (epochs, optimizer, scheduler) was applied across all experiment models for consistent comparison.
+📉 Loss Curve:  
+![Loss Curve](outputs/base_model_files/base_model_loss_curve.png)
+
+### 🖼️ Reconstruction Results
+- The baseline CAE reliably reconstructs handwritten digits with high visual fidelity and no visible artifacts.  
+- Key digit features are preserved across all samples, making this model a strong reference point for evaluating reconstruction quality in later experiments.
+📌 Original Samples:  
+![Original Digits](outputs/base_model_files/base_image_original.png)
+📌 Reconstructed Output:  
+![Reconstructed Digits](outputs/base_model_files/base_image_reconstruction.png)
+
 
 ## 🔍 Experiment Overview
 
 | Experiment # | Hyperparameter         | Variants                                  | Notebook Link |
 |--------------|-------------------------|-------------------------------------------|----------------|
-| 1            | Number of convolutional filters       | `[16,32,32]`, `[32,32,64]`, `[32,64,128]`               | [Experiment #1 - Different Number of Filters](notebooks/experiment_1(filters).ipynb) |
-| 2            | Latent space dimension        | `2`, `8`, `32`, `64`                      | [Experiment #2 - Different Laten Space Sizes](notebooks/experiment_2(latent_dim).ipynb) |
-| 3            | Batch normalization     | Off vs On                                 | [Experiment #3 - Usage of Batch Normalization](notebooks/experiment_3(batch_norm).ipynb) |
-| 4            | Number of convolutional layers     | `2 layers`, `3 layers`, `4 layers`           | [Experiment #4 - Different Convolutional Depths](notebooks/experiment_4(conv_depth).ipynb) |
-| 5            | Activation function type| `ReLU` vs 'Leaky ReLU' with `0.01`, '0.1', '0.2' slopes                         | [Experiment #5 - Usage of Leaky ReLU](notebooks/experiment_5(leaky_relu).ipynb) |
+| 1            | Number of convolutional filters       | `[16,32,32]`, `[32,32,64]`, `[32,64,128]`               | [Experiment #1 - Different Number of Filters](notebooks/CAE_experiment_1(filters).ipynb) |
+| 2            | Latent space dimension        | `2`, `8`, `32`, `64`                      | [Experiment #2 - Different Laten Space Sizes](notebooks/CAE_experiment_2(latent_dim).ipynb) |
+| 3            | Batch normalization     | Off vs On                                 | [Experiment #3 - Usage of Batch Normalization](notebooks/CAE_experiment_3(batch_norm).ipynb) |
+| 4            | Number of convolutional layers     | `2 layers`, `3 layers`, `4 layers`           | [Experiment #4 - Different Convolutional Depths](notebooks/CAE_experiment_4(conv_depth).ipynb) |
+| 5            | Activation function type| `ReLU` vs 'Leaky ReLU' with `0.01`, '0.1', '0.2' slopes                         | [Experiment #5 - Usage of Leaky ReLU](notebooks/CAE_experiment_5(leaky_relu).ipynb) |
 
 
 ---
@@ -53,8 +74,6 @@ Reconstruction
   <p><em>Reconstruction with latent_dim = 32 and 64 — near-identical quality</em></p>
 </div>
 
-> 🧩 **Conclusion:** Increasing latent space dimensionality enhances reconstruction quality but contradicts the compactness objective.
-
 ### 2. ⚙️ Filter Width Has Minor Effect on reconstruction quality and loss
 - Increasing the number of convolutional filters led to **slightly lower reconstruction loss** and **marginal improvement of reconstruction quality**.
 - All configurations of convolution filters successfully preserved the structure of the digits with **indistinguishable to the naked eye** visual differences between them
@@ -63,9 +82,7 @@ Reconstruction
   <p><em>Reconstructions from models with different filter configurations:<br>
   [16,32,32] (narrow) vs [32,32,64] (baseline) vs [32,64,128] (wide)</em></p>
 </div>
-
-> 💡 Conclusion: Wider filters slightly reduce loss but offer no substantial visual improvement, making their added cost **unjustified for a simple dataset like MNIST**.
-> 
+ 
 ### 3. 🔬 Other Factors (Depth, Activation, BatchNorm) are negligible 
 - Increasing **convolutional depth** beyond two layers **did not improve reconstruction quality**. Although, while training dynamics varied early on, all three models eventually converged to similar loss level in the end
 
@@ -75,8 +92,6 @@ Reconstruction
 </div>
 - Switching from ** ReLU to Leaky ReLU** had no measurable effect on output quality
 - Enabling **batch normalization** led to slightly smoother training, but final results remained unchanged
-
-> 💡 Conclusion: As a result, these architectural modifications add complexity without any performance gains.
 
 ### 4. 📦 Model Complexity is only driven by Filters and Depth
 
@@ -89,7 +104,6 @@ Reconstruction
   <img src="outputs/summary/param_bar_chart.png" width="500"/>
   <p><em>Parameter count across model variants</em></p>
 </div>
-> 💡 **Conclusion:** To reduce computational footprint, prioritize decreasing filter size and number of layers.
 
 ### 5. 🎯 Latent Space is the hidden lever behind autoencoder efficiency
 
@@ -102,10 +116,13 @@ Among all explored parameters, **latent dimensionality stands out as the only on
 
 > 💡 **Conclusion:** Optimizing the latent space is not just about accuracy, but about aligning the model with its true purpose — learning **the minimal shape of encoding that can be decoded with the most meaningful reconstruction quality**.
 
-## Key Conclusions from the Experiment
+## 💡 Key Conclusions from the Experiment
 
-1. d
-2. 
+1. Increasing latent space dimensionality enhances reconstruction quality but contradicts the compactness objective. A tradeoff latent dimensions should be applied.
+2. Wider filters slightly reduce loss but offer no substantial visual improvement, making their added cost **unjustified for a simple dataset like MNIST**.
+3. Such architectural modifications as usage of batch normalization, leaky ReLU activation function, and additional convolution layers  add complexity without any performance gains.
+4. Decreasing filter size and number of convlutional layers must be prioritized to reduce computational footprint.
+5. 
 
 ## ⚖️ Considerations for the Trade-Off Model
 Given that the goal of the trade-off model is to achieve an optimal balance between reconstruction quality, model compactness, and computational efficiency - especially for lightweight tasks like MNIST digit encoding.
@@ -125,78 +142,38 @@ These components showed negligible effect on reconstruction quality and training
 > 🧠 Together, these changes result in a lean, performant model — suitable for efficient deployment without significant sacrifice in quality.
 
 
----
+## ⚖️ Baseline vs Trade-Off Model
 
-## 📈 Visual Highlights
+The trade-off model was designed to balance reconstruction quality with resource efficiency. While the baseline CAE offers slightly better loss performance, it is more complex than necessary for a dataset as simple as MNIST. The trade-off model achieves comparably strong reconstructions with significantly lower parameter count and a smaller latent space, making it ideal for lightweight deployment.
 
-### 📉 Loss Curves (Latent Dimension Comparison)
-*Example: `latent_dim = 2 vs 32 vs 64`*
+### 🧮 Architecture Comparison
 
-![loss_curves_latent](outputs/summary/latent_loss_curve.png)
+| Property         | Baseline CAE     | Trade-Off CAE  |
+|------------------|------------------|----------------|
+| Filters          | [32, 32, 64]     | [32, 32]       |
+| Latent Dimension | 32               | 16             |
+| Depth            | 3 blocks         | 2 blocks       |
+| Total Parameters | ~1.2M            | ~0.7M          |
 
-### 🖼️ Reconstruction Samples
-*Example: `latent_dim = 2 vs 32 vs 64`*
-
-![reconstruction_comparison](outputs/summary/latent_reconstruction.png)
-
-> All models converged within 10 epochs. Models with `latent_dim = 2` struggled with digit clarity, while models with `latent_dim = 64` offered no visible improvement over the baseline.
-
----
-
-## 🧠 Final Reflection
-
-This study demonstrates the value of isolating hyperparameters to understand their impact, especially in a simple context like MNIST. Instead of relying on grid search, this approach helped surface which components meaningfully affect performance and which are less impactful.
-
-While combining hyperparameters could yield better absolute performance, that was not the goal of this study. Instead, this work emphasizes **interpretability and efficiency**.
-
-A trade-off model may be proposed later if computational cost is benchmarked.
+> 💡 The trade-off model has **~40% fewer parameters**, reduces depth, and encodes into a **more compact latent space** — all while maintaining acceptable reconstruction quality.
 
 ---
 
-## 🛠️ Bottom-Line Trade-Off Model
+### 🖼️ Visual Comparison
 
-As a final step, this project proposes a single **bottom-line CAE model** designed to balance reconstruction quality with minimal resource usage. This model draws on the best-performing settings observed in the isolated experiments.
+Despite its lighter architecture, the trade-off model retains sufficient decoding capacity to reconstruct digits clearly and accurately.
 
-**Proposed configuration:**
-- Filters: `[16, 32, 32]`
-- Latent dimension: `16`
-- Activation: Leaky ReLU
-- Batch Normalization: Enabled
-- Depth: 2-layer encoder/decoder
-
-This model is not optimal in every metric but offers the best compromise for lightweight deployment with good reconstruction fidelity.
-
-A dedicated notebook and performance metrics for this model may be added if resource benchmarking is completed.
-| Component | Choice | Rationale |
-|-----------|--------|-----------|
-| **Filters** | `[16, 32, 32]` | 2× lighter than baseline, loss ≈ +4 % |
-| **Latent dim** | `16` | 50 % smaller rep., quality sweet-spot |
-| **Depth** | 2 blocks | Extra block gave negligible gain |
-| **Activation** | Leaky ReLU (α = 0.1) | Same quality, slightly steadier curves |
-| **BatchNorm** | Enabled | Adds <0.5 % params, minor stability win |
-
-👉 `src/models/cae_tradeoff.py` contains the exact class; results are logged in `notebooks/tradeoff_model.ipynb`.
----
-
-## 🔧 Project Structure
-
-├─ notebooks/ # each experiment as a standalone .ipynb
-├─ outputs/
-│ ├─ loss_curves/ # PNG loss curves per run
-│ └─ reconstructions/ # sample originals & reconstructions
-├─ src/
-│ ├─ models/ # CAE variants
-│ └─ utils.py # loaders, training loop
-└─ README.md # ← you are here
+<div align="center">
+  <img src="outputs/comparison/recon_baseline.png" width="400"/>
+  <img src="outputs/comparison/recon_tradeoff.png" width="400"/>
+  <p><em>Baseline (left) vs Trade-Off (right) — Sample Reconstructions</em></p>
+</div>
 
 ---
 
-## 📚 References
+### ✅ Conclusion
 
-- PyTorch Documentation  
-- *Deep Learning with PyTorch* (Paszke et al.)  
-- MNIST Dataset
-
----
-
-*Author: [Your Name / GitHub Handle]*
+The trade-off CAE offers the best balance across all evaluation criteria:
+- Compact latent encoding  
+- Competitive reconstruction quality  
+- Significantly reduced model complexity  
