@@ -15,10 +15,11 @@ The insights gained from these isolated experiments are ultimately used to propo
 ---
 
 ## 🧱 Baseline CAE Model
-This model is a minimal Convolutional Autoencoder (CAE), trained on the MNIST digits dataset, and serving as the foundational benchmark for all experiments in this project.
-This model strikes a solid balance between simplicity and accuracy, making it an ideal reference point for evaluating architectural changes in all subsequent experiments.
+This model is a minimal Convolutional Autoencoder (CAE), trained on the MNIST digits dataset, and serving as the foundational benchmark for all experiments in this project. This model strikes a solid balance between simplicity and accuracy, making it an ideal reference point for evaluating architectural changes in all subsequent experiments.
 
-###⚙️ Model Overview
+Detailed overview is in the baseline model available by the link: [Convolutional Autoencoder (CAE) — Baseline Model](notebooks/CAE_base_model.ipynb)
+
+### ⚙️ Model Overview
 -	Encoder/decoder channels: [32, 32, 64]
 -	Latent dimension size: 32
 -	Batch normalization: not used
@@ -29,19 +30,24 @@ This model strikes a solid balance between simplicity and accuracy, making it an
 -	The model was trained for 20 epochs using the Adam optimizer (`lr = 1e-3`) with a `ReduceLROnPlateau` scheduler.  
 -	Both training and validation losses steadily decreased and stabilized within 10 epochs, indicating smooth convergence without overfitting.
 -	The same training setup (epochs, optimizer, scheduler) was applied across all experiment models for consistent comparison.
-📉 Loss Curve:  
-![Loss Curve](outputs/base_model_files/base_model_loss_curve.png)
+
+<div align="left">
+  <img src="outputs/base_model_files/base_image_loss.png" width="500"/>
+</div>
 
 ### 🖼️ Reconstruction Results
 - The baseline CAE reliably reconstructs handwritten digits with high visual fidelity and no visible artifacts.  
 - Key digit features are preserved across all samples, making this model a strong reference point for evaluating reconstruction quality in later experiments.
-📌 Original Samples:  
-![Original Digits](outputs/base_model_files/base_image_original.png)
-📌 Reconstructed Output:  
-![Reconstructed Digits](outputs/base_model_files/base_image_reconstruction.png)
+<div align="left">
+  <img src="outputs/base_model_files/base_image_original.png" width="700"/>
+</div>
+<div align="left">
+  <img src="outputs/base_model_files/base_image_reconstruction.png" width="700"/>
+</div>
 
+## 🔍 Experiments Overview
 
-## 🔍 Experiment Overview
+The table below present summary of each experiment - the number of experiment; what hyperparameter change was studied; what variants of the hyperparameter were; and a link to notebooks, describing the experiments setups and results in detail.
 
 | Experiment # | Hyperparameter         | Variants                                  | Notebook Link |
 |--------------|-------------------------|-------------------------------------------|----------------|
@@ -50,9 +56,6 @@ This model strikes a solid balance between simplicity and accuracy, making it an
 | 3            | Batch normalization     | Off vs On                                 | [Experiment #3 - Usage of Batch Normalization](notebooks/CAE_experiment_3(batch_norm).ipynb) |
 | 4            | Number of convolutional layers     | `2 layers`, `3 layers`, `4 layers`           | [Experiment #4 - Different Convolutional Depths](notebooks/CAE_experiment_4(conv_depth).ipynb) |
 | 5            | Activation function type| `ReLU` vs 'Leaky ReLU' with `0.01`, '0.1', '0.2' slopes                         | [Experiment #5 - Usage of Leaky ReLU](notebooks/CAE_experiment_5(leaky_relu).ipynb) |
-
-
----
 
 ## Key Insights from Experiments
 ### 1. Latent dimension is the primary driver of reconstruction quality:
