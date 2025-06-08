@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import torch
 from IPython.display import Image, display
 
-def plot_experiment_history(loss_list, label_list, to_plot_train=False, color=plt.get_cmap('tab10').colors):
+def plot_experiment_history(loss_list, label_list, title, to_plot_train=False, color=plt.get_cmap('tab10').colors):
     '''
     Plot loss curves for multiple models.
 
@@ -95,7 +95,7 @@ def plot_experiment_reconstructions(reconstructions, labels, title_list):
     return figures
 
 
-def disply_reconstruction_images(experiment_number, model_count):
+def display_reconstruction_images(experiment_number, model_count):
     """
     Display base model reconstruction and experiment reconstruction images.
 
