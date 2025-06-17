@@ -29,20 +29,23 @@ Detailed overview is in the baseline model available by the link: [Convolutional
 ### 🏋️‍♂️ Training
 -	The model was trained for 20 epochs using the Adam optimizer (`lr = 1e-3`) with a `ReduceLROnPlateau` scheduler.  
 -	Both training and validation losses steadily decreased and stabilized within 10 epochs, indicating smooth convergence without overfitting.
--	The same training setup (epochs, optimizer, scheduler) was applied across all experiment models for consistent comparison.
+-	The same training setup (epochs, optimizer, scheduler) was applied across all experiment models for consistent comparison:
 
-<div align="left">
+<div align="center">
   <img src="outputs/base_model_files/base_image_loss.png" width="500"/>
+  <p><em>Reconstruction loss history of baseline model</em></p>
 </div>
 
 ### 🖼️ Reconstruction Results
 - The baseline CAE reliably reconstructs handwritten digits with high visual fidelity and no visible artifacts.  
-- Key digit features are preserved across all samples, making this model a strong reference point for evaluating reconstruction quality in later experiments.
-<div align="left">
+- Key digit features are preserved across all samples, making this model a strong reference point for evaluating reconstruction quality in later experiments:
+  
+<div align="center">
   <img src="outputs/base_model_files/base_image_original.png" width="700"/>
 </div>
-<div align="left">
+<div align="center">
   <img src="outputs/base_model_files/base_image_reconstruction.png" width="700"/>
+  <p><em>Comparison of original digits (upper image) with reconstructed (lower image)</em></p>
 </div>
 
 ## 🔍 Experiments Overview
@@ -59,35 +62,50 @@ The table below present summary of each experiment - the number of experiment; w
 
 ## Key Insights from Experiments
 ### 1. Latent dimension is the primary driver of reconstruction quality:
-- Among all tested architectural parameters, **latent space dimensionality** had the most significant impact on both training loss and visual reconstruction quality
+- Among all tested architectural parameters, **latent space dimensionality** had the most significant impact on both training loss and visual reconstruction quality:
+  
 <div align="center">
-  <img src="outputs/experiment_2_files/experiment_2_image_loss.png" width="420"/>
-  <p><em>Validation loss across different latent dimensions (2, 8, 32, 64)</em></p>
+  <img src="outputs/experiment_2_files/experiment_2_image_loss.png" width="500"/>
+  <p><em>Reconstruction loss across different latent dimensions (2, 8, 32, 64)</em></p>
 </div>
 
-- **Smaller latent sizes** (e.g., 2 or 8) led to blurry or ambiguous digit reconstructions  
+- **Smaller latent sizes** (e.g., 2 or 8) led to blurry or ambiguous digit reconstructions:
+  
 <div align="center">
-  <img src="outputs/experiment_2_files/experiment_2_image_reconstruction_1.png" width="420"/>
-  <p><em>Reconstruction with latent_dim = 2 — degraded clarity and digit confusion</em></p>
+  <img src="outputs/experiment_2_files/experiment_2_image_reconstruction_1.png" width="700"/>
+</div>
+<div align="center">
+  <img src="outputs/experiment_2_files/experiment_2_image_reconstruction_2.png" width="700"/>
+  <p><em>Reconstruction with latent dimension 2 (upper image) and with latent dimension 8 (lower image) </em></p>
 </div>
 
-- **Larger latent sizes** (32 and 64) improved accuracy, but with diminishing improvements beyond 32  
+- **Larger latent sizes** (32 and 64) improved accuracy, but with diminishing improvements beyond 32:
+  
 <div align="center">
-  <img src="outputs/experiment_2_files/experiment_2_image_reconstruction_4.png" width="420"/>
-  <p><em>Reconstruction with latent_dim = 32 and 64 — near-identical quality</em></p>
+  <img src="outputs/base_model_files/base_image_reconstruction.png" width="700"/>
+</div>
+<div align="center">
+  <img src="outputs/experiment_2_files/experiment_2_image_reconstruction_3.png" width="700"/>
+  <p><em>Reconstruction with latent dimension 32 (upper image) and latent dimension 64 (lower image)</em></p>
 </div>
 
-### 2. ⚙️ Filter Width Has Minor Effect on reconstruction quality and loss
+### 2. ⚙️ Number of convolutional filters has minor effect on reconstruction quality and loss
 - Increasing the number of convolutional filters led to **slightly lower reconstruction loss** and **marginal improvement of reconstruction quality**.
-- All configurations of convolution filters successfully preserved the structure of the digits with **indistinguishable to the naked eye** visual differences between them
+- All configurations of convolution filters successfully preserved the structure of the digits with **indistinguishable to the naked eye** visual differences between them:
+  
 <div align="center">
   <img src="outputs/experiment_1_files/experiment_1_image_reconstruction_1.png"" width="500"/>
-  <p><em>Reconstructions from models with different filter configurations:<br>
-  [16,32,32] (narrow) vs [32,32,64] (baseline) vs [32,64,128] (wide)</em></p>
+</div>
+<div align="center">
+  <img src="outputs/base_model_files/base_image_reconstruction.png"" width="500"/>
+</div>
+<div align="center">
+  <img src="outputs/experiment_1_files/experiment_1_image_reconstruction_2.png"" width="500"/>
+  <p><em>Reconstructions from models with different filter configurations</em></p>
 </div>
  
-### 3. 🔬 Other Factors (Depth, Activation, BatchNorm) are negligible 
-- Increasing **convolutional depth** beyond two layers **did not improve reconstruction quality**. Although, while training dynamics varied early on, all three models eventually converged to similar loss level in the end
+### 3. 🔬 Other factors — depth of convolutional layers; activation functions; usage of batch normalization — are negligible 
+- Increasing **convolutional depth** beyond two layers **did not improve reconstruction quality**. Although, while training dynamics varied early on, all three models eventually converged to similar loss level in the end:
 
 <div align="center">
   <img src="outputs/summary/loss_curves_depth.png" width="420"/>
