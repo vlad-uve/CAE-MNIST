@@ -8,7 +8,7 @@ The insights gained from these isolated experiments are ultimately used to propo
 
 ---
 
-## 📉 ~Objective~
+## 🔭 ~Objective~
 
 ~To evaluate the impact of individual architectural components on a CAE's ability to compress and reconstruct grayscale handwritten digits. Each experiment isolates a single hyperparameter to assess its effect independently.~
 
@@ -19,7 +19,7 @@ This model is a minimal Convolutional Autoencoder (CAE), trained on the MNIST di
 
 Detailed overview is in the baseline model available by the link: [Convolutional Autoencoder (CAE) — Baseline Model](notebooks/CAE_base_model.ipynb)
 
-### ⚙️ Model Overview
+### ⚙️ Model architecture overview
 -	Encoder/decoder channels: [32, 32, 64]
 -	Latent dimension size: 32
 -	Batch normalization: not used
@@ -36,7 +36,7 @@ Detailed overview is in the baseline model available by the link: [Convolutional
   <p><em>Reconstruction loss history of baseline model</em></p>
 </div>
 
-### 🖼️ Reconstruction Results
+### 🖼️ Reconstruction results
 - The baseline CAE reliably reconstructs handwritten digits with high visual fidelity and no visible artifacts.  
 - Key digit features are preserved across all samples, making this model a strong reference point for evaluating reconstruction quality in later experiments:
   
@@ -60,8 +60,8 @@ The table below present summary of each experiment - the number of experiment; w
 | 4            | Number of convolutional layers     | `2 layers`, `3 layers`, `4 layers`           | [Experiment #4 - Different Convolutional Depths](notebooks/CAE_experiment_4(conv_depth).ipynb) |
 | 5            | Activation function type| `ReLU` vs 'Leaky ReLU' with `0.01`, '0.1', '0.2' slopes                         | [Experiment #5 - Usage of Leaky ReLU](notebooks/CAE_experiment_5(leaky_relu).ipynb) |
 
-## Key Insights from Experiments
-### 1. Latent dimension is the primary driver of reconstruction quality:
+## 👁️ Key Insights from Experiments
+### 1. 🧠 Latent dimension is the primary driver of reconstruction quality:
 - Among all tested architectural parameters, **latent space dimensionality** had the most significant impact on both training loss and visual reconstruction quality:
   
 <div align="center">
@@ -104,7 +104,7 @@ The table below present summary of each experiment - the number of experiment; w
   <p><em>Reconstructions from models with different filter configurations</em></p>
 </div>
  
-### 3. 🔬 Other factors — depth of convolutional layers; activation functions; usage of batch normalization — are negligible 
+### 3. 🧩 Other factors — depth of convolutional layers; activation functions; usage of batch normalization — are negligible 
 - Increasing **convolutional depth** beyond two layers **did not improve reconstruction quality**. Although, while training dynamics varied early on, all three models eventually converged to similar loss level in the end:
 
 <div align="center">
@@ -114,60 +114,56 @@ The table below present summary of each experiment - the number of experiment; w
 - Switching from ** ReLU to Leaky ReLU** had no measurable effect on output quality
 - Enabling **batch normalization** led to slightly smoother training, but final results remained unchanged
 
-### 4. 📦 Model Complexity is only driven by Filters and Depth
+### 4. 📦 Model Complexity is only driven by latent space, filters and depth
 
-- **Filter width** and **convolutional depth** have the greatest impact on parameter count  
-- **Latent dimension** influences model size but in a relatively minor manner
-- **Batch Normalization** adds some overhead
-- **Activation function** has no impact on complexity
-(bar plot)
+- **Latent dimension**, **filter width** and **convolutional depth** have the greatest impact on parameter count:
+  
 <div align="center">
   <img src="outputs/summary/param_bar_chart.png" width="500"/>
   <p><em>Parameter count across model variants</em></p>
 </div>
 
-### 5. 🎯 Latent Space is the hidden lever behind autoencoder efficiency
+- **Batch Normalization** has no impact on complexity
+- **Activation Function** has no impact on complexity
+
+### 5. 🎯 Latent Space is the hidden lever behind autoencoder performance
 
 Among all explored parameters, **latent dimensionality stands out as the only one directly tied to every key objective**:
-- It governs **reconstruction quality** - too small leads to poor digit retention  
-- It shapes **model compactness** - larger spaces absolutely defeat the purpose of encoding  
-- It influences **model size ** - smaller latent space results in fewer parameters count
-
-> 🧠 **Unlike filters or depth**, which mainly affect model size, the latent space defines the *informational bottleneck* — the core idea behind autoencoding.
-
-> 💡 **Conclusion:** Optimizing the latent space is not just about accuracy, but about aligning the model with its true purpose — learning **the minimal shape of encoding that can be decoded with the most meaningful reconstruction quality**.
+- It governs **reconstruction quality** - too small leads to poor digit retention.  
+- It shapes **model compactness** - larger spaces absolutely defeat the purpose of encoding.  
+- It influences **model size** - smaller latent space results in fewer parameters count.
 
 ## 💡 Key Conclusions from the Experiment
 
-1. Increasing latent space dimensionality enhances reconstruction quality but contradicts the compactness objective. A tradeoff latent dimensions should be applied.
+1. Increasing latent space dimensionality **enhances reconstruction quality** but **contradicts the compactness objective**. A tradeoff latent dimensions should be applied.
 2. Wider filters slightly reduce loss but offer no substantial visual improvement, making their added cost **unjustified for a simple dataset like MNIST**.
-3. Such architectural modifications as usage of batch normalization, leaky ReLU activation function, and additional convolution layers  add complexity without any performance gains.
-4. Decreasing filter size and number of convlutional layers must be prioritized to reduce computational footprint.
-5. 
+3. Such architectural modifications as usage of batch normalization, leaky ReLU activation function, and additional convolution layers  **add complexity without any noticable performance gains**.
+4. Decreasing filter size, latent space and number of convlutional layers **must be prioritized** to reduce computational footprint.
 
 ## ⚖️ Considerations for the Trade-Off Model
-Given that the goal of the trade-off model is to achieve an optimal balance between reconstruction quality, model compactness, and computational efficiency - especially for lightweight tasks like MNIST digit encoding.
+Given that the goal of the trade-off model is to achieve an optimal balance between reconstruction quality, model compactness, and computational efficiency (especially for lightweight tasks like MNIST digit encoding).
 
-The following design decisions are grounded in experimental evidence:
-### **🔐 Latent dimension is set to 16**  
-  While latent size strongly affects output quality, it must remain small to serve the encoder’s purpose. A dimension of 16 offers a practical compromise between compression and clarity.
+### The following design decisions are grounded in experimental evidence:
 
-###**🧱 Depth is reduced to 2 encoding/decoding blocks**  
-  Experimental results confirm that additional layers do not improve final loss or visual output, yet substantially increase parameter count.
-- **🔽 Filters are narrowed to `[32, 32]`**  
-  This reduces overall complexity while still preserving enough feature extraction capacity to support faithful reconstructions.
+### 1. 🔐 Latent dimension is set to 16:  
+While latent size strongly affects output quality, it must remain small to serve the encoder’s purpose. A dimension of 16 offers a practical compromise between compression and clarity.
 
--**❌ Batch Normalization & Leaky ReLU are omitted**  
+### 2. 🧱 Depth is reduced to 2 encoding/decoding blocks:  
+Experimental results confirm that additional layers do not improve final loss or visual output, yet substantially increase parameter count.
+
+### 3. 🔽 Filters are narrowed to [32, 32]  
+This reduces overall complexity while still preserving enough feature extraction capacity to support faithful reconstructions.
+
+### 4. ❌ Batch Normalization & Leaky ReLU are omitted  
 These components showed negligible effect on reconstruction quality and training dynamics, so they are excluded to simplify the architecture.
 
-> 🧠 Together, these changes result in a lean, performant model — suitable for efficient deployment without significant sacrifice in quality.
-
+>**🧠 Together, these changes result in a lean, performant model — suitable for efficient deployment without significant sacrifice in quality**
 
 ## ⚖️ Baseline vs Trade-Off Model
 
 The trade-off model was designed to balance reconstruction quality with resource efficiency. While the baseline CAE offers slightly better loss performance, it is more complex than necessary for a dataset as simple as MNIST. The trade-off model achieves comparably strong reconstructions with significantly lower parameter count and a smaller latent space, making it ideal for lightweight deployment.
 
-### 🧮 Architecture Comparison
+### 🧮 ~Architecture Comparison~
 
 | Property         | Baseline CAE     | Trade-Off CAE  |
 |------------------|------------------|----------------|
@@ -176,7 +172,7 @@ The trade-off model was designed to balance reconstruction quality with resource
 | Depth            | 3 blocks         | 2 blocks       |
 | Total Parameters | ~1.2M            | ~0.7M          |
 
-> 💡 The trade-off model has **~40% fewer parameters**, reduces depth, and encodes into a **more compact latent space** — all while maintaining acceptable reconstruction quality.
+~> 💡 The trade-off model has **~40% fewer parameters**, reduces depth, and encodes into a **more compact latent space** — all while maintaining acceptable reconstruction quality.~
 
 ---
 
@@ -185,8 +181,10 @@ The trade-off model was designed to balance reconstruction quality with resource
 Despite its lighter architecture, the trade-off model retains sufficient decoding capacity to reconstruct digits clearly and accurately.
 
 <div align="center">
-  <img src="outputs/comparison/recon_baseline.png" width="400"/>
-  <img src="outputs/comparison/recon_tradeoff.png" width="400"/>
+  <img src="outputs/comparison/recon_baseline.png" width="700"/>
+</div>
+<div align="center">
+  <img src="outputs/comparison/recon_tradeoff.png" width="700"/>
   <p><em>Baseline (left) vs Trade-Off (right) — Sample Reconstructions</em></p>
 </div>
 
@@ -194,7 +192,20 @@ Despite its lighter architecture, the trade-off model retains sufficient decodin
 
 ### ✅ Conclusion
 
-The trade-off CAE offers the best balance across all evaluation criteria:
-- Compact latent encoding  
-- Competitive reconstruction quality  
-- Significantly reduced model complexity  
+The trade-off CAE architecture offers the most effective balance across all key criteria:
+- A compact and efficient latent representation  
+- Strong reconstruction quality, comparable to heavier models  
+- Substantially lower model complexity and parameter count  
+
+This model reflects the insights gained through a series of targeted experiments, each isolating a single architectural factor to evaluate its impact.
+
+## 📌 Final Reflection
+
+This project provides a principled and interpretable study of how architectural decisions affect the performance of Convolutional Autoencoders (CAEs) in a controlled setting. By isolating individual hyperparameters rather, than relying on brute-force tuning, the experiments uncovered which elements meaningfully impact reconstruction quality, efficiency, and model complexity.
+
+Through this process, a compact and efficient trade-off model was developed. It meets the core objective of autoencoding: creating minimal latent representations while retaining high-fidelity reconstructions. The model is significantly lighter than the baseline, yet performs comparably well on the MNIST digit dataset.
+
+The methodology and insights from this project can be transferred to other datasets and tasks involving image compression, representation learning, or generative modeling. More importantly, it demonstrates the value of understanding the *why* behind architecture choices — a critical mindset for building optimized and explainable deep learning systems.
+
+---
+
